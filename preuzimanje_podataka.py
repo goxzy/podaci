@@ -15,7 +15,8 @@ url='http://isplate.apprrr.hr/godina/2016'
 url1='http://isplate.apprrr.hr'
 count=0
 grad=input("Unesi ime grada za koji te zanimaju potpore:")
-for x in range (1,5):
+pagei=int(input("Unesi broj stranica:"))
+for x in range (1,pagei):
     r=requests.get(url,params={'page':x,'grad':grad})
     data=r.text
 #print(data)
@@ -31,15 +32,17 @@ for x in range (1,5):
         url3=url1+dodatak
         r1=requests.get(url3)
         podaci_poljoprivrednik=r1.text
-        
+
         soup1=BeautifulSoup(podaci_poljoprivrednik,'html.parser')
         for item in soup1.find_all('li'):
 
             if item.text.startswith('Naziv:'):
                 podjela=item.text.split()
-                naziv=podjela[1]+' '+podjela[2]
-                print(naziv)
-
+                try:
+                    naziv=podjela[1]+' '+podjela[2]
+                    print(naziv)
+                except:
+                    naziv=podjela[1]
 
         for item in soup1.find_all('td'):
             if item.text=='Program osnovnih plaćanja':
